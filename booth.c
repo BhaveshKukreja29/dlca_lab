@@ -1,265 +1,164 @@
+#include <math.h>
 #include <stdio.h>
 
-int binary_banao(int n, int num[]);
-void decimal(int num[]);
-int power(int n, int exp);
-void binary_add(int n1[], int n2[]);
-void binary_add_alag(int n1[], int n2[]);
+int a = 0, b = 0, c = 0, a1 = 0, b1 = 0, com[5] = { 1, 0, 0, 0, 0 };
+int anum[5] = { 0 }, anumcp[5] = { 0 }, bnum[5] = { 0 };
+int acomp[5] = { 0 }, bcomp[5] = { 0 }, pro[5] = { 0 }, res[5] = { 0 };
 
-int m;
-int q;
-int m1[4];
-int m1neg[4];
-int q1[4];
-
-
-int a[4];
-
-int qMin1;
-int n;
-
-int main()
+void binary()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		a[i] = 0;
-	}
-	
-	qMin1 = 0;
-	n = 4;
-	
-	printf("Enter m: ");
-	scanf("%d", &m);
-	
-	printf("Enter q: ");
-	scanf("%d", &q);
-	
-	binary_banao(m, m1);
-	
-	
-	for (int i = 0; i < 4; i++)
-	{
-		if (m1[i] == 0) m1neg[i] = 1;
-		else if (m1[i] == 1) m1neg[i] = 0;
-	}
-	
-	int one[] = {1};
-	
-	binary_add_alag(m1neg, one);
-				
-	printf("Binary number: ");
-	for (int i = 3; i >= 0; i--)
-	{
-		printf("%d", m1neg[i]);
-	}
-	
-	
-	binary_banao(q, q1);
-	
-	while (n > 0)
-	{
-		if (qMin1 == 0 && q1[0] == 0)
-		{
-			
-		}
-		
-		else if (qMin1 == 0 && q1[0] == 1)
-		{
-			
-		}
-		
-		else if (qMin1 == 1 && q1[0] == 0)
-		{
-			
-		}
-		
-		else if (qMin1 == 1 && q1[0] == 1) 
-		{
-			
-		}
-		
-		n--;
-	}
-	
-	
-	
+    a1 = fabs(a);
+    b1 = fabs(b);
+    int r, r2, i, temp;
+    for (i = 0; i < 5; i++) {
+        r = a1 % 2;
+        a1 = a1 / 2;
+        r2 = b1 % 2;
+        b1 = b1 / 2;
+        anum[i] = r;
+        anumcp[i] = r;
+        bnum[i] = r2;
+        if (r2 == 0) {
+            bcomp[i] = 1;
+        }
+        if (r == 0) {
+            acomp[i] = 1;
+        }
+    }
 
-	return 0;
+    c = 0;
+    for (i = 0; i < 5; i++) {
+        res[i] = com[i] + bcomp[i] + c;
+        if (res[i] >= 2) {
+            c = 1;
+        } else
+            c = 0;
+        res[i] = res[i] % 2;
+    }
+    for (i = 4; i >= 0; i--) {
+        bcomp[i] = res[i];
+    }
+
+    if (a < 0) {
+        c = 0;
+        for (i = 4; i >= 0; i--) {
+            res[i] = 0;
+        }
+        for (i = 0; i < 5; i++) {
+            res[i] = com[i] + acomp[i] + c;
+            if (res[i] >= 2) {
+                c = 1;
+            } else
+                c = 0;
+            res[i] = res[i] % 2;
+        }
+        for (i = 4; i >= 0; i--) {
+            anum[i] = res[i];
+            anumcp[i] = res[i];
+        }
+    }
+    if (b < 0) {
+        for (i = 0; i < 5; i++) {
+            temp = bnum[i];
+            bnum[i] = bcomp[i];
+            bcomp[i] = temp;
+        }
+    }
+}
+void add(int num[])
+{
+    int i;
+    c = 0;
+    for (i = 0; i < 5; i++) {
+        res[i] = pro[i] + num[i] + c;
+        if (res[i] >= 2) {
+            c = 1;
+        } else {
+            c = 0;
+        }
+        res[i] = res[i] % 2;
+    }
+    for (i = 4; i >= 0; i--) {
+        pro[i] = res[i];
+        printf("%d", pro[i]);
+    }
+    printf(":");
+    for (i = 4; i >= 0; i--) {
+        printf("%d", anumcp[i]);
+    }
+}
+void arshift()
+{
+    int temp = pro[4], temp2 = pro[0], i;
+    for (i = 1; i < 5; i++) {
+        pro[i - 1] = pro[i];
+    }
+    pro[4] = temp;
+    for (i = 1; i < 5; i++) {
+        anumcp[i - 1] = anumcp[i];
+    }
+    anumcp[4] = temp2;
+    printf("\nArithematic Right Shift: ");
+    for (i = 4; i >= 0; i--) {
+        printf("%d", pro[i]);
+    }
+    printf(":");
+    for (i = 4; i >= 0; i--) {
+        printf("%d", anumcp[i]);
+    }
 }
 
-int binary_banao(int n, int num[])
+void main()
 {
-	int count = 0;
-	
-	while (n != 0)
-	{
-		num[count] =  n % 2;
-		n = n/2;
-		count++;
-	}
-	
-	return count;
-}
+    int i, q = 0;
+    printf("\nEnter two numbers to multiply: ");
+    do {
+        printf("\nEnter A: ");
+        scanf("%d", &a);
+        printf("Enter B: ");
+        scanf("%d", &b);
+    } while (a >= 16 || b >= 16);
 
-void decimal(int num[])
-{
-		int sum = 0;
-		
-		for (int i = 0; i < 8; i++)
-		{
-			sum += power(2, 7 - i)*num[i];
-		}
-		
-		printf("Decimal value is: %d", sum);
-}
+    printf("\nProduct = %d", a * b);
+    binary();
+    printf("\n\nBinary Equivalents are: ");
+    printf("\nA = ");
+    for (i = 4; i >= 0; i--) {
+        printf("%d", anum[i]);
+    }
+    printf("\nB = ");
+    for (i = 4; i >= 0; i--) {
+        printf("%d", bnum[i]);
+    }
+    printf("\n2's complement = ");
+    for (i = 4; i >= 0; i--) {
+        printf("%d", bcomp[i]);
+    }
+    printf("\n\n");
+    for (i = 0; i < 5; i++) {
+        printf("\nPass %d", i + 1);
+        if (anum[i] == q) {
+            arshift();
+            q = anum[i];
+        } else if (anum[i] == 1 && q == 0) {
+            printf("\nSubtract B: ");
+            add(bcomp);
+            arshift();
+            q = anum[i];
+        } else {
+            printf("\nAdd B: ");
+            add(bnum);
+            arshift();
+            q = anum[i];
+        }
+    }
 
-int power(int n, int exp)
-{
-	int sum = 1;
-	for (int i = 0; i < exp; i++)
-	{
-		sum *= n;
-	}
-	
-	return sum;
-}
-
-void binary_add(int n1[], int n2[])
-{
-	int carry = 0;
-	int sum[4];
-	
-	
-	for (int i = 0; i < 4; i++)
-	{
-		if (n1[i] == 0 && n2[i] == 0)
-		{
-			if (carry == 0)
-			{
-				sum[i] = 0;
-			}
-			else if (carry == 1)
-			{
-				sum[i] = 1;
-				carry = 0;
-			}
-		}
-		
-		else if (n1[i] == 1 && n2[i] == 0)
-		{
-			if (carry == 0)
-			{
-				sum[i] = 1;
-			}
-			
-			else if (carry == 1)
-			{
-				sum[i] = 0;
-				carry = 1;
-			}
-		}
-		
-		else if (n1[i] == 0 && n2[i] == 1)
-		{
-			if (carry == 0)
-			{
-				sum[i] = 1;
-			}
-			
-			else if (carry == 1)
-			{
-				sum[i] = 0;
-				carry = 1;
-			}
-		}
-		
-		else if (n1[i] == 1 && n2[i] == 1)
-		{
-			if (carry == 0)
-			{
-				sum[i] = 0;
-				carry = 1;
-			}
-			else if (carry == 1)
-			{
-				sum[i] = 1;
-				carry = 1;
-			}
-		}
-	}
-	
-	for (int i = 0; i < 4; i++)
-	{
-		n1[i] = sum[i];
-	}
-}
-
-void binary_add_alag(int n1[], int n2[])
-{
-	int carry = 1;
-	int sum[4];
-	
-	
-	for (int i = 0; i < 4; i++)
-	{
-		if (n1[i] == 0)
-		{
-			if (carry == 0)
-			{
-				sum[i] = 0;
-			}
-			else if (carry == 1)
-			{
-				sum[i] = 1;
-				carry = 0;
-			}
-		}
-		
-		else if (n1[i] == 1)
-		{
-			if (carry == 0)
-			{
-				sum[i] = 1;
-			}
-			
-			else if (carry == 1)
-			{
-				sum[i] = 0;
-				carry = 1;
-			}
-		}
-		
-		else if (n1[i] == 0)
-		{
-			if (carry == 0)
-			{
-				sum[i] = 1;
-			}
-			
-			else if (carry == 1)
-			{
-				sum[i] = 0;
-				carry = 1;
-			}
-		}
-		
-		else if (n1[i] == 1)
-		{
-			if (carry == 0)
-			{
-				sum[i] = 0;
-				carry = 1;
-			}
-			else if (carry == 1)
-			{
-				sum[i] = 1;
-				carry = 1;
-			}
-		}
-	}
-	
-	for (int i = 0; i < 4; i++)
-	{
-		n1[i] = sum[i];
-	}
+    printf("\nProduct is = ");
+    for (i = 4; i >= 0; i--) {
+        printf("%d", pro[i]);
+    }
+    for (i = 4; i >= 0; i--) {
+        printf("%d", anumcp[i]);
+    }
+    printf("\n");
 }
