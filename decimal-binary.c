@@ -12,7 +12,7 @@ int main()
 
     do
     {
-        printf("Enter 1 for decimal to binary, and 2 for binary to decimal.\n");
+        printf("Enter 1 for decimal to binary, 2 for binary to decimal, or 3 to exit.\n");
         printf("Enter your choice: ");
         scanf("%d", &c);
 
@@ -47,11 +47,15 @@ int main()
                 decimal(num);
                 break;
 
+            case 3:
+                printf("Exiting the program.\n");
+                break;
+
             default:
-                printf("Invalid choice.\n");
+                printf("Invalid choice. Please enter 1, 2, or 3.\n");
                 break;
         }
-    } while (c < 3);
+    } while (c != 3);
 
     return 0;
 }
